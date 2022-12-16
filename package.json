@@ -1,0 +1,31 @@
+{
+	"name": "ticket-jwt",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-node": "1.0.0-next.104",
+		"@sveltejs/kit": "1.0.0-next.586",
+		"svelte": "^3.54.0",
+		"svelte-check": "^2.9.2",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"@supabase/functions-js": "^2.0.0",
+		"@supabase/supabase-js": "^2.1.3",
+		"eslint": "^8.29.0",
+		"filedrop-svelte": "^0.1.2",
+		"tesseract.js": "^4.0.1",
+		"twitter-api-v2": "^1.12.10"
+	}
+}
