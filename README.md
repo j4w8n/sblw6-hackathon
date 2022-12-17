@@ -1,6 +1,6 @@
 # Supabase Launch Week 6 Hackathon
 
-I've already been working on an open source project. Its daunting goal is for the world to use https/api/json for transporting HTML content, like newsletters. Currently, this is done with email protocols.
+I've already been working on an open source project. Its daunting goal is for the world to use https/api/json for transporting HTML content, like newsletters. Currently, this is done with email protocols. If curious, the repo is [here](https://github.com/j4w8n/jwm-server) - still playing around.
 
 So as for the Supabase hackathon, this is just a fun, meta app for launch week. I did learn a bit about Deno modules for crypto, an optical character recognition npm module, and the Twitter API.
 
