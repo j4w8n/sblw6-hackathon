@@ -9,6 +9,7 @@ import {
 } from '$env/static/private'
 import { decodeJWTPayload, validateJson } from '$lib/server/helpers'
 import { TwitterApi } from 'twitter-api-v2'
+import { supabaseAdminClient } from '$lib/server/adminClient'
 
 const userClient = new TwitterApi({
   appKey: TWITTER_CONSUMER_KEY,
@@ -40,16 +41,37 @@ export async function POST(event: RequestEvent) {
   if (payload.exp * 1000 < Date.now())
     return json({ message: 'JWT has expired' })
 
-  if (data.handle) {
-    /* add to list on Twitter */
-    const { data: { id: user_id } } = await readWriteClient.v2.userByUsername(data.handle)
-    const res = await readWriteClient.v2.addListMember(TWITTER_LIST_ID, user_id)
-    if (!res.data?.is_member) {
-      console.log(res)
-      return json({ message: 'Unable to add user to list' })
-    }
-  } else {
-    return json({ message: 'Body must contain a valid Twitter handle.' })
+  if (!data.handle) return json({ message: 'Body must contain a valid Twitter handle.' })
+  
+  /* check if this JWT has already been used */
+  const { data: usedData, error: usedError } = await supabaseAdminClient
+    .from('jwts')
+    .select('used')
+    .eq('jwt', data.jwt)
+  
+  if (usedError) {
+    console.log(usedError)
+    throw usedError
+  }
+  if (usedData?.length! > 0 && usedData![0].used) return json({ message: 'JWT has already been used.' })
+
+  /* add to list on Twitter */
+  const { data: { id: user_id } } = await readWriteClient.v2.userByUsername(data.handle)
+  const res = await readWriteClient.v2.addListMember(TWITTER_LIST_ID, user_id)
+  if (!res.data?.is_member) {
+    console.log(res)
+    return json({ message: 'Unable to add user to list' })
+  }
+
+  /* if added to twitter list, set `used` to true */
+  const { data: setUsed, error: setError } = await supabaseAdminClient
+    .from('jwts')
+    .update({ used: true })
+    .eq('jwt', data.jwt)
+
+  if(setError) {
+    console.log(setError)
+    throw setError
   }
 
   return json({ message: 'successful POST!' });
