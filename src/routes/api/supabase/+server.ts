@@ -1,7 +1,12 @@
 import type { RequestEvent } from './$types'
 import { json } from '@sveltejs/kit'
-import { TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET, TWITTER_BEARER, TWITTER_LIST_ID, TWITTER_ID, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } from '$env/static/private'
-import { supabaseAdminClient } from '$lib/server/adminClient'
+import { 
+  TWITTER_ACCESS_TOKEN, 
+  TWITTER_ACCESS_SECRET, 
+  TWITTER_LIST_ID, 
+  TWITTER_CONSUMER_KEY, 
+  TWITTER_CONSUMER_SECRET 
+} from '$env/static/private'
 import { decodeJWTPayload, validateJson } from '$lib/server/helpers'
 import { TwitterApi } from 'twitter-api-v2'
 
@@ -12,12 +17,6 @@ const userClient = new TwitterApi({
   accessSecret: TWITTER_ACCESS_SECRET
 })
 const readWriteClient = userClient.readWrite
-
-const appClientConsumer = await userClient.appLogin()
-const appReadWriteClientConsumer = appClientConsumer.readWrite
-
-const appClient = new TwitterApi(TWITTER_BEARER)
-const appReadWriteClient = appClient.readWrite
 
 export function GET() {
   return json({message: 'successful GET!'})
@@ -43,26 +42,15 @@ export async function POST(event: RequestEvent) {
 
   if (data.handle) {
     /* add to list on Twitter */
-    //const { data: { id: user_id } } = await readWriteClient.v2.userByUsername(data.handle)
-
-    /* getting 403 here because app has read-only perms by default */
-    //const res = await appReadWriteClient.v2.addListMember(TWITTER_LIST_ID, user_id)
-    //console.log(res)
-
-    // const res = await fetch(`https://api.twitter.com/2/lists/${TWITTER_LIST_ID}/members`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Authorization: `Bearer ${TWITTER_BEARER}`,
-    //     'user-agent': 'v2addMemberJS',
-    //     'content-type': 'application/json',
-    //     accept: 'application/json'
-    //   },
-    //   body: JSON.stringify({ user_id })
-    // })
-    // console.log(res)
+    const { data: { id: user_id } } = await readWriteClient.v2.userByUsername(data.handle)
+    const res = await readWriteClient.v2.addListMember(TWITTER_LIST_ID, user_id)
+    if (!res.data?.is_member) {
+      console.log(res)
+      return json({ message: 'Unable to add user to list' })
+    }
   } else {
     return json({ message: 'Body must contain a valid Twitter handle.' })
   }
 
-  return json({message: 'successful POST!'});
+  return json({ message: 'successful POST!' });
 }
