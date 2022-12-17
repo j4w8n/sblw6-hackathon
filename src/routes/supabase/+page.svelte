@@ -113,14 +113,14 @@ const body = &lbrace;
   {#await ticket}
     <h3 class="block">We're processing your ticket...</h3>
   {:then}
-    <h3 class="block">We're processing your ticket... <span class="text-supabase-green">OK!</span></h3>
+    <h3 class="block">We're processing your ticket... <span class="text-supabase-green">DONE!</span></h3>
     {#await jwt}
       <h3 class="block">We're creating your JWT...</h3>
     {:then value}
       {#if value.error?.code === '23505'}
         <h3 class="block" style="color: red;">We already have your ticket. Duplicate submissions are not allowed.</h3>
       {:else}
-        <h3 class="block">We're creating your JWT... <span class="text-supabase-green">OK!</span></h3>
+        <h3 class="block">We're creating your JWT... <span class="text-supabase-green">DONE!</span></h3>
         <h3 class="block">Your JWT is <br><code class="text-gray">{value.jwt}</code></h3>
         <h3 class="block">Your key, to the verify JWT, is <br><code class="text-gray">{value.key}</code></h3>
       {/if}
