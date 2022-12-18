@@ -1,8 +1,8 @@
 import { serve } from 'https://deno.land/std@0.131.0/http/server.ts'
 import { create } from 'https://deno.land/x/djwt@v2.8/mod.ts'
 import { crypto } from 'https://deno.land/std@0.167.0/crypto/mod.ts'
-import { supabaseAdminClient } from '../shared/supabase.ts'
-import { validateJson } from '../shared/utils.ts'
+import { supabaseAdminClient } from '../_shared/supabase.ts'
+import { validateJson } from '../_shared/utils.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
