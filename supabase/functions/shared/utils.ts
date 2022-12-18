@@ -17,6 +17,6 @@ export const validateJson = async (request: Request): Promise<jsonResponse> => {
     }
   }): { attendee: null, start_date: null, error: 'Body is null'}
 
-  json.error = null
+  if (!json.error) json.error = null
   return json
 }
