@@ -41,7 +41,7 @@ serve(async (req: Request): Promise<Response> => {
         aud: 'sblw6',
         iat: Math.floor(Date.now() / 1000),
         nbf: (Date.parse('2022-12-12T00:00:00') / 1000),
-        exp: (Date.parse('2022-12-26T00:00:00') / 1000),
+        exp: (Date.parse('2023-02-01T00:00:00') / 1000),
         ...json
       }, 
       key

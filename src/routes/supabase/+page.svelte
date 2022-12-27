@@ -84,7 +84,7 @@
 <h2>Turn your ticket into a JWT!</h2>
 <div class="block-centered">
   <p>
-    Your JWT expires on 2022-12-26T00:00:00, and uses algorithm HS512 if you'd like to verify the signature.
+    Your JWT expires on 2023-02-01T00:00:00, and uses algorithm HS512 if you'd like to verify the signature.
   </p>
   <p>
     Once you have your JWT, send a <code>POST</code> request to https://rockthecode.dev/api/supabase. 
