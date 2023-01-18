@@ -1,5 +1,7 @@
 # Supabase Launch Week 6 Hackathon
 
+THIS REPO HAS BEEN ARCHIVED
+
 I've already been working on an open source project; so I didn't want to start another right now.
 
 Because of that, my project for the Supabase hackathon is simply a fun, meta app for launch week. I did learn a bit about Deno modules for crypto, an optical character recognition npm module, and the Twitter API.
